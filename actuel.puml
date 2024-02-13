@@ -1,0 +1,120 @@
+@startuml a41-Actuel
+!theme reddress-darkgreen
+
+package Observer {
+    interface CashDeskObserver{
+        + updateCashTable(nbOfCashedTables : Integer, beersPrice : Real, tartesFlambeesPrice : Real)
+        + updateNewProduct(product : Product)
+        + updateClearProducts()
+        + updateReset()
+    }
+}
+
+package Model {
+    class CashDesk {
+        - _priceOfSoldBeers : Real
+        - _priceOfSoldTartesFlambees : Real
+        + <<create>> CashDesk()
+        + cashTable()
+        + addProduct(product : Product)
+        + clearProducts()
+        + resetCashDeskAndTables()
+        + addObserver(CashDeskObserver observer)
+        - notifyCashTable(nbOfCashedTables : Integer, priceOfSoldBeers : Real, priceOfSoldTartesFlambees : Real)
+        - notifyNewProduct(product : Product)
+        - notifyClearProducts()
+        - notifyReset()
+    }
+    CashDesk *--> " 1 "Table : - _activeTable
+    CashDesk *--> " * "Table : - _cashedTables
+    CashDesk *--> " * "CashDeskObserver : - _observers
+
+    class Beer extends Product {
+        + <<create>> Beer(name : String, price : Real)
+    }
+
+    class TarteFlambee extends Product {
+        + <<create>> TarteFlambee(name : String, price : Real)
+    }
+
+    abstract class Product {
+        - _name : String
+        - _price : Real
+        + <<create>> Product(name : String, price : Real)
+        + getPrice() : Real
+        + getName()  : String
+    }
+    note right
+        constructor pourrait etre protected
+    end note
+
+    class ProductFactory {
+        + <<create>> ProductFactory()
+        + Product createIndianPaleAle()  : Product
+        + createAlcoholFreeBeer() : Product
+        + Product createTarteFlambeeTraditional() : Product
+        + createTarteFlambeeMunster() : Product
+        + createTarteFlambeeHawaiian() : Product
+    }
+    ProductFactory ..> Product : create
+
+    class Table {
+        - {static} _count : Integer
+        - {readonly} _id :Integer
+        - _cashed : Boolean
+        + <<create>> Table()
+        + getId() : Integer
+        + cashTable()
+        + getCashed() : Boolean
+        + addProduct(product : Product)
+        + getBeerPrice() : Real
+        + getTarteFlambeePrice() : Real
+        + clearProducts()
+    }
+    Table o--> " * "Product : - _products
+    note left
+        _id calcule sur le _count (++)
+    end note
+}
+
+package Controller {
+    class AuBrasseurController {
+        +<<create>> AuBrasseurController(cashDesk : CashDesk)
+        + cashTable()
+        + addAlcoholFreeBeer()
+        + addIndianPaleAle()
+        + addTarteFlambeeTraditional()
+        + addTarteFlambeeMunster()
+        + addTarteFlambeeHawaiian()
+        + clearProducts()
+        + resetCashDeskAndTables()
+    }
+    AuBrasseurController ..> CashDesk : - _cashDesk
+    AuBrasseurController ..> ProductFactory : - _productFactory
+}
+
+package View {
+    class AuBrasseurTab implements CashDeskObserver {
+        /' extends JPanel '/
+        - _panelCurrentTableProducts : JPanel
+        - _labelNbPayedTables : JPanel
+        - _labelNbActiveTables : JPanel
+        - _labelAmountTotalBeerPrice : JPanel
+        - _labelAmountTotalTartesFlambeesPrice : JPanel
+        - _listIdOfActiveTable : JComboBox<Integer>
+        + <<create>> AuBrasseurTab(cashDesk : CashDesk, controller : AuBrasseurController)
+        + {override} updateCashTable(nbOfCashedTables : Integer, beersPrice : Real, tartesFlambeesPrice : Real)
+        + {override} updateNewProduct(product : Product)
+        + {override} updateClearProducts()
+        + {override} updateReset()
+    }
+
+
+    class MainWindow {
+        /' extends JPanel '/
+        + <<create>> MainWindow(auBrasseurTab : AuBrasseurTab)
+    }
+    MainWindow ..> AuBrasseurTab
+}
+
+@enduml
