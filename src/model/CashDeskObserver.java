@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface CashDeskObserver {
 
 	void updateCashTable(Integer nbOfCashedTables, Double beersPrice, Double tartesFlambeesPrice);
@@ -7,11 +10,11 @@ public interface CashDeskObserver {
     void updateClearProducts();
 	void updateReset();
 
-	void updateListTable();
+	void updateListTable(List<Table> allTables);
 
 	/**
 	 * Regarde la table active dans le model et remet a jour les infos de la vue
 	 */
-	void updateCurrentTable();
+	void updateCurrentTable(Table table);
 
 }
