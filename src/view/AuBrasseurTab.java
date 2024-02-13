@@ -4,9 +4,11 @@ import controller.AuBrasseurController;
 import model.CashDesk;
 import model.CashDeskObserver;
 import model.Product;
+import model.Table;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 
@@ -31,6 +33,7 @@ public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 		panelListOfActiveTable.add(_listIdOfActiveTable);
 		// Bouton pour choisir une table active
 		JButton buttonSelectTable = new JButton("Sélectionner");
+		buttonSelectTable.addActionListener(event -> controller.setActiveTable(_listIdOfActiveTable.getSelectedIndex()));
 		panelListOfActiveTable.add(buttonSelectTable);
 		add(panelListOfActiveTable, BorderLayout.NORTH);
 
@@ -86,9 +89,11 @@ public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 		panelTableButtons.add(new JLabel("Gérer les tables :"));
 		// Bouton pour ajouter une nouvelle table active
 		JButton buttonAddTable = new JButton("Ajouter une table");
+		buttonAddTable.addActionListener(event -> controller.addTable());
 		panelTableButtons.add(buttonAddTable);
 		// Bouton pour supprimer une table active
 		JButton buttonDeleteTable = new JButton("Supprimer une table");
+		buttonDeleteTable.addActionListener(event -> controller.removeTable());
 		panelTableButtons.add(buttonDeleteTable);
 		// Bouton d'encaissement
 		panelTableButtons.add(new JLabel("Encaissement :"));
@@ -178,6 +183,22 @@ public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 		_labelAmountTotalBeerPrice.setText("0 €");
 		_labelAmountTotalTartesFlambeesPrice.setText("0 €");
 		_panelCurrentTableProducts.revalidate();
+	}
+
+	@Override
+	public void updateListTable(List<Table> allTables) {
+		_listIdOfActiveTable.removeAllItems();
+
+		for(Table table : allTables)
+		{
+			Integer id = table.getId();
+			_listIdOfActiveTable.addItem(id);
+		}
+	}
+
+	@Override
+	public void updateCurrentTable(Table table) {
+		
 	}
 
 }

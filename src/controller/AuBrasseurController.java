@@ -46,12 +46,12 @@ public class AuBrasseurController {
 	public void resetCashDeskAndTables() {
 		_cashDesk.resetCashDeskAndTables();
 	}
-	public void setActive(int IDtbl)
+	public void setActiveTable(Integer idTable)
 	{
 		Table tbl = null;
 		for(int i = 0; i < this._cashDesk.getAllTables().size() ; i++ )
 		{
-			if(this._cashDesk.getAllTables().get(i).getId() == IDtbl)
+			if(this._cashDesk.getAllTables().get(i).getId() == idTable)
 			{
 				tbl = this._cashDesk.getAllTables().get(i);
 			}

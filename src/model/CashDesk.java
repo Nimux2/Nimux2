@@ -91,6 +91,7 @@ public class CashDesk {
 		{
 			this._allTables.remove(_activeTable);
 		}
+		notifyModifyListTable();
 	}
 
 	public List<Table> getAllTables() {
