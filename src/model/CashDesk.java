@@ -10,7 +10,6 @@ public class CashDesk {
 	private Table _activeTable;
 	private List<Table> _cashedTables;
 	private List<CashDeskObserver> _observers;
-	private List<Table> _allTables;
 
 	public CashDesk() {
 		_priceOfSoldBeers = 0.;
@@ -18,7 +17,6 @@ public class CashDesk {
 		_activeTable = new Table();
 		_cashedTables = new ArrayList<>();
 		_observers = new ArrayList<>();
-		_allTables = new ArrayList<>();
 	}
 
 	public void cashTable() {
@@ -30,6 +28,7 @@ public class CashDesk {
 		// Ajouter la table active à la liste des tables encaissées
 		_cashedTables.add(_activeTable);
 		// Créer une nouvelle table active
+		_activeTable = new Table();
 		// Notifier les opbserveurs
 		notifyCashTable(_cashedTables.size(), _priceOfSoldBeers, _priceOfSoldTartesFlambees);
 	}
@@ -77,32 +76,6 @@ public class CashDesk {
 	private void notifyReset() {
 		for (CashDeskObserver observer : _observers) {
 			observer.updateReset();
-		}
-	}
-
-	public void setCurrentTable(Table table) {
-		this._activeTable = table;
-		notifyChangeTable();
-	}
-
-	public List<Table> getAllTables() {
-		return this._allTables;
-	}
-
-	public void addTable() {
-		this._allTables.add(new Table());
-		notifyModifyListTable();
-	}
-
-	private void notifyModifyListTable() {
-		for (CashDeskObserver observer : _observers) {
-			observer.updateListTable(this._allTables);
-		}
-	}
-
-	private void notifyChangeTable(){
-		for (CashDeskObserver observer : _observers) {
-			observer.updateCurrentTable(this._activeTable);
 		}
 	}
 }
