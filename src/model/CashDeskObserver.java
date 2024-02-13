@@ -9,4 +9,9 @@ public interface CashDeskObserver {
 
 	void updateListTable();
 
+	/**
+	 * Regarde la table active dans le model et remet a jour les infos de la vue
+	 */
+	void updateCurrentTable();
+
 }
