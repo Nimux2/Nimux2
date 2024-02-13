@@ -85,6 +85,14 @@ public class CashDesk {
 		notifyChangeTable();
 	}
 
+	public void deleteTable()
+	{
+		if(this._activeTable != null)
+		{
+			this._allTables.remove(_activeTable);
+		}
+	}
+
 	public List<Table> getAllTables() {
 		return this._allTables;
 	}

@@ -48,16 +48,16 @@ public class AuBrasseurController {
 	}
 	public void setActive(int IDtbl)
 	{
-		Table tbl;
-		for(int i = 0; i < this._cashDesk.getAll().size() ; i++ )
+		Table tbl = null;
+		for(int i = 0; i < this._cashDesk.getAllTables().size() ; i++ )
 		{
-			if(this._cashDesk.getAll().get(i).getId() == IDtbl)
+			if(this._cashDesk.getAllTables().get(i).getId() == IDtbl)
 			{
-				tbl = this._cashDesk.getAll().get(i);
+				tbl = this._cashDesk.getAllTables().get(i);
 			}
 		}
 
-		this._cashDesk.setcurrent(tbl);
+		if (tbl != null) this._cashDesk.setCurrentTable(tbl);
 	}
 
 	/**
