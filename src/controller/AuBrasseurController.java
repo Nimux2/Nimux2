@@ -2,6 +2,7 @@ package controller;
 
 import model.CashDesk;
 import model.ProductFactory;
+import model.Table;
 
 public class AuBrasseurController {
 
@@ -44,5 +45,32 @@ public class AuBrasseurController {
 
 	public void resetCashDeskAndTables() {
 		_cashDesk.resetCashDeskAndTables();
+	}
+	public void setActive(int IDtbl)
+	{
+		Table tbl;
+		for(int i = 0; i < this._cashDesk.getAll().size() ; i++ )
+		{
+			if(this._cashDesk.getAll().get(i).getId() == IDtbl)
+			{
+				tbl = this._cashDesk.getAll().get(i);
+			}
+		}
+
+		this._cashDesk.setcurrent(tbl);
+	}
+
+	/**
+	 * Demande la création et l'ajout d'une nouvelle table dans le model
+	 */
+	public void addTable(){
+		this._cashDesk.addTable();
+	}
+
+	/**
+	 * Supprimer sans encaisser la table courante
+	 */
+	public void removeTable(){
+		this._cashDesk.deleteTable();
 	}
 }
