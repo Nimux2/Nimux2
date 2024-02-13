@@ -2,6 +2,7 @@ package controller;
 
 import model.CashDesk;
 import model.ProductFactory;
+import model.SortStrategy;
 
 public class AuBrasseurController {
 
@@ -45,4 +46,8 @@ public class AuBrasseurController {
 	public void resetCashDeskAndTables() {
 		_cashDesk.resetCashDeskAndTables();
 	}
+
+	public void setStrategy(SortStrategy strategy) { _cashDesk.setStrategy(strategy); }
+
+	public SortStrategy getStrategy() { return _cashDesk.get_strategy(); }
 }

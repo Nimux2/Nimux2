@@ -1,6 +1,6 @@
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatLightLaf;
+//import com.formdev.flatlaf.FlatLightLaf;
 
 import controller.AuBrasseurController;
 import model.CashDesk;
@@ -10,7 +10,7 @@ import view.MainWindow;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        FlatLightLaf.setup();
+        //FlatLightLaf.setup();
         UIManager.put("TabbedPane.tabAreaAlignment", "fill");
 
 		CashDesk model = new CashDesk();
