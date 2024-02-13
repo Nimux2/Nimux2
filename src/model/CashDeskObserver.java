@@ -7,4 +7,6 @@ public interface CashDeskObserver {
     void updateClearProducts();
 	void updateReset();
 
+	void updateListTable();
+
 }
