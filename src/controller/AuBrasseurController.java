@@ -45,4 +45,18 @@ public class AuBrasseurController {
 	public void resetCashDeskAndTables() {
 		_cashDesk.resetCashDeskAndTables();
 	}
+
+	/**
+	 * Demande la création et l'ajout d'une nouvelle table dans le model
+	 */
+	public void addTable(){
+		this._cashDesk.addTable();
+	}
+
+	/**
+	 * Supprimer sans encaisser la table courante
+	 */
+	public void removeTable(){
+		this._cashDesk.deleteTable();
+	}
 }
