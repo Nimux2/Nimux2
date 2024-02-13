@@ -9,12 +9,17 @@ public class Table {
 
 	private final Integer _id;
 	private Boolean _cashed;
+
 	private List<Product> _products;
 
 	public Table() {
 		_id = ++_count;
 		_cashed = false;
 		_products = new ArrayList<>();
+	}
+
+	public List<Product> get_products() {
+		return _products;
 	}
 
 	public Integer getId() {

@@ -6,5 +6,5 @@ public interface CashDeskObserver {
 	void updateNewProduct(Product product);
     void updateClearProducts();
 	void updateReset();
-
+	void updateStrategy(SortStrategy strategy);
 }

@@ -1,12 +1,12 @@
 package view;
 
 import controller.AuBrasseurController;
-import model.CashDesk;
-import model.CashDeskObserver;
-import model.Product;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 
@@ -75,6 +75,28 @@ public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 		JButton buttonTarteFlambeeHawaiian = new JButton("Hawaïenne");
 		buttonTarteFlambeeHawaiian.addActionListener(event -> controller.addTarteFlambeeHawaiian());
 		panelProductButtons.add(buttonTarteFlambeeHawaiian);
+
+		// Bouton pour les tris
+		panelProductButtons.add(new JLabel("Trier les tables :"));
+		// Bouton pour trier les tables par prix
+		JButton buttonSortTablesByPrice = new JButton("Trier par prix");
+		buttonSortTablesByPrice.addActionListener(e -> {
+			if (!(controller.getStrategy() instanceof PriceStrategy)) {
+				controller.setStrategy(new PriceStrategy());
+				updateSortPanel(cashDesk);
+			}
+		});
+		panelProductButtons.add(buttonSortTablesByPrice);
+
+		// Bouton pour trier les tables par nom
+		JButton buttonSortTablesByName = new JButton("Trier par nom");
+		buttonSortTablesByName.addActionListener(e -> {
+			if (!(controller.getStrategy() instanceof NameStrategy)) {
+				controller.setStrategy(new NameStrategy());
+				updateSortPanel(cashDesk);
+			}
+		});
+		panelProductButtons.add(buttonSortTablesByName);
 		
 		// Ajout du panneau
 		add(panelProductButtons, BorderLayout.WEST);
@@ -180,4 +202,17 @@ public class AuBrasseurTab extends JPanel implements CashDeskObserver {
 		_panelCurrentTableProducts.revalidate();
 	}
 
+	@Override
+	public void updateStrategy(SortStrategy strategy) {
+		System.out.println(strategy.getName());
+	}
+
+	private void updateSortPanel(CashDesk cashDesk) {
+		updateClearProducts();
+		for (Product product: cashDesk.get_activeTable().get_products()) {
+			updateNewProduct(product);
+		}
+		_panelCurrentTableProducts.revalidate();
+		_panelCurrentTableProducts.repaint();
+	}
 }

@@ -7,9 +7,11 @@ public class CashDesk {
 
 	private Double _priceOfSoldBeers;
 	private Double _priceOfSoldTartesFlambees;
+
 	private Table _activeTable;
 	private List<Table> _cashedTables;
 	private List<CashDeskObserver> _observers;
+	private SortStrategy _strategy;
 
 	public CashDesk() {
 		_priceOfSoldBeers = 0.;
@@ -17,6 +19,7 @@ public class CashDesk {
 		_activeTable = new Table();
 		_cashedTables = new ArrayList<>();
 		_observers = new ArrayList<>();
+		setStrategy(new NameStrategy());
 	}
 
 	public void cashTable() {
@@ -77,5 +80,31 @@ public class CashDesk {
 		for (CashDeskObserver observer : _observers) {
 			observer.updateReset();
 		}
+	}
+
+	public void setStrategy(SortStrategy strategy) {
+		_strategy = strategy;
+		sortProducts();
+		notifyStrategy(_strategy);
+	}
+
+	public void notifyStrategy(SortStrategy strategy) {
+		for (CashDeskObserver observer: _observers) {
+			observer.updateStrategy(strategy);
+		}
+	}
+
+	public void sortProducts() {
+		if (_strategy != null) {
+			_activeTable.get_products().sort(_strategy::compare);
+		}
+	}
+
+	public Table get_activeTable() {
+		return _activeTable;
+	}
+
+	public SortStrategy get_strategy() {
+		return _strategy;
 	}
 }
